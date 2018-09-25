@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="./js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./js/lib/bootstrap/css/bootstrap-material-design.min.css" rel="stylesheet">
+    <link href="css/jquery.dropdown.css" rel="stylesheet">
+    <link href="./js/lib/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script type="text/javascript" src="./js/lib/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="./js/lib/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="./js/lib/underscore.min.js"></script>
+    <script type="text/javascript" src="./js/lib/vue.min.js"></script>
+    <script type="text/javascript" src="./js/lib/d3.min.js"></script>
+    <script type="text/javascript" src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/lib/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="./js/lib/bootstrap/js/bootstrap-datetimepicker.fr.js"></script>
+    <title>股票日志记录</title>
+</head>
+
+<body class="border">
+        <!-- <div class="form-group">
+                <label for="dtp_input12" class="col-md-2 control-label">DateTime Picking</label>
+                <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input12">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input12" value="" /><br/>
+            </div> -->
+    <!-- <nav>
+        <button id="btn_info"><i class="glyphicon glyphicon-info-sign" title="基本信息"></i></button>
+        <button id="btn_load"><i class="glyphicon glyphicon-import" title="加载"></i></button>
+        <button id="btn_save"><i class="glyphicon glyphicon-export" title="保存"></i></button>
+    </nav> -->
+    <div id="showLogList" class="panel panel-primary">
+        <div class="panel-heading" style="position: relative;cursor: default;">
+            <h2 class="panel-title">选择日志类型<span id="addNewLog" title="点击新增类型" style="float:right;cursor: pointer;">新增日志</span></h2>
+        </div>
+        <div class="panel-body">
+            <input type="text" class="form-control" id="queryStr2" placeholder="请输入装置名称" />
+            <div class="tableContainer">
+                <table class="table table-striped table-hover ">
+                    <tr>
+                        <th>#</th>
+                        <th>日志名称</th>
+                    </tr>
+                    <tr v-for="(item,index) in logList">
+                        <td>{{index+1}}</td>
+                        <td >{{item.name}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div v-if="showChooseLoadding" id="chooseType" class="target-loadding">
+        <div id="showList" class="panel panel-primary">
+            <div class="panel-heading" style="position: relative;cursor: default;">
+                <h2 class="panel-title">选择日志类型<span id="addNew" title="点击新增类型">新增日志类型</span></h2>
+            </div>
+            <div class="panel-body">
+                <input type="text" class="form-control" id="queryStr" placeholder="请输入装置名称" />
+                <div class="tableContainer">
+                    <table class="table table-striped table-hover ">
+                        <tr>
+                            <th>#</th>
+                            <th>日志名称</th>
+                        </tr>
+                        <tr v-for="(item, index) in list">
+                            <td>{{index+1}}</td>
+                            <td @click="chooseThisTarget(item.guid)">{{item.guid}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="showCreatLogLoadding" id="showCreatLogLoadding" class="target-loadding">
+        <div class="panel panel-primary" id="creatLog">
+            <div class="panel-heading" style="position: relative;cursor: default;">
+                <h2 class="panel-title">创建日志</h2>
+            </div>
+            <div class="panel-body">
+               
+                <div class="items">
+                    <p class="col-sm-2 item" style="margin-top:0px;">类型：</p>
+                    <div class="col-sm-10">
+                        <select class="selectpicker" name="selectpicker" v-model="newLogData.type" style="width:90%">
+                            <option v-for="(item,index) in logTypesList" :value="item.value" key="index">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="items">
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">股票名称：</p>
+                    <div class="" style="width:80%">
+                        <input style="width:90%;margin-top: 11px;" name="share_name" type="" id="sharesName" v-model="newLogData.name"
+                            value="" />
+                    </div>
+                </div>
+                <div class="items">
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">股价：</p>
+                    <div class="">
+                        <input style="width:91px;margin-top: 11px;" name="share_price" type="number" id="share_value" v-model="newLogData.price"
+                            value="" />
+                    </div>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 72px;">仓位：</p>
+                    <div class="">
+                        <input style="width:91px;margin-top: 11px;" name="share_num" type="number" id="share_num" v-model="newLogData.number"
+                            value="" />
+                    </div>
+                </div>
+                <div class="items">
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">百分比：</p>
+                    <div class="">
+                        <input style="width:91px;margin-top: 11px;" name="share_percent" type="number" id="percent" v-model="newLogData.percent"
+                            value="" />
+                    </div>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 72px;">金额：</p>
+                    <div class="">
+                        <input style="width:91px;margin-top: 11px;" name="share_much" type="number" id="money" v-model="newLogData.much"
+                            value="" />
+                    </div>
+                </div>
+                <!-- <div class="items"> -->
+                    <p for="dtp_input1" class="col-sm-2 item" style="margin-top:0px; padding-top: 13px">日期：</p>
+                    <div class="form-group">
+                            <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
+                            <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            <input type="hidden" id="dtp_input1" value="" /><br/>
+                        </div>
+                    <!-- <div class="col-sm-10">
+                        <div class="input-group date form_datetime col-md-5" style="width:100%" data-date="1979-09-16T05:25:07Z"
+                            data-date-format="yyyy mm dd - HH:ii p">
+                            <input class="form-control" size="16" id="log_date" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div> -->
+                <!-- </div> -->
+                <div class="items">
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">备注：</p>
+                    <div class="" style="width:80%">
+                        <textarea id="remarks" value="" name="share_remarks" v-model="newLogData.remarks" style="width:90%;height: 72px;"></textarea>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="panel-foot">
+                <button @click="showCreatLogLoadding=false" class="btn" style="margin-left:88%;background: grey">取消</button>
+                <button id="creat_ok" class="btn"  style="background: #009688;color: #FFF;">确定</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.form_datetime').datetimepicker({
+                //language:  'fr',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1
+            });
+        })
+        // $("#datepicker").datepicker( "option", "dateFormat","yy-mm-dd" );
+        // $("#targetSVGImg").delegate("circle, text, use, rect", 'mouseover', function (evt) {
+        //     var $curSVGNode = $(event.target);
+        //     var position = {
+        //         x: evt.clientX + 10,
+        //         y: evt.clientY + 10
+        //     };
+        //     // console.log(evt);
+        //     showTip($($curSVGNode).attr('id') + ' ' + $($curSVGNode).attr('data-guid'), position);
+        // });
+    </script>
+</body>
+
+</html>

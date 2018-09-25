@@ -1,0 +1,140 @@
+body {
+    /*background: url("data/11.png") no-repeat center center;*/
+}
+
+.panel {
+    border-radius: 2px;
+    border: 0;
+}
+body.border{
+    background-color: #009688;
+    border-width:0 0 0 48px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 48px 45px;
+    border: 0 solid transparent;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    -webkit-user-select: none;
+    font-family: "Microsoft YaHei";
+    font-size: 14px;
+    color: #666666;
+    position: absolute;
+    background: transparent;
+}
+body.border nav {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+}
+.target-loadding {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#showList {
+    margin: auto;
+    width: 800px;
+    height: 80%;
+}
+#showLogList {
+    width: 100%;
+    height: 97%;
+    float: right;
+}
+#creatLog {
+    margin: auto;
+    width:500px;
+    height: 60%;
+}
+
+.panel-heading {
+    background-color: #009688;
+    color: rgba(255, 255, 255, 0.84);
+    border: 0;
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.panel-title{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    color: inherit;
+}
+h2{
+    text-align: left;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 300;
+}
+#addNew{
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    width: 7em;
+    color: #FFF;
+    background-color: rgba(255,255,255,0.5);
+    display: inline-block;
+    padding: 8px;
+    cursor: pointer;
+}
+#showList .panel-body{
+    height: calc(100vh - 156px);
+    overflow-y: auto;
+}
+#queryStr{
+    font-size: 18px;
+    line-height: 18px;
+}
+.form-control{
+    height: 24px;
+    border-radius: 0px;
+    padding: 0;
+    margin-bottom: 7px;
+    background-position: center bottom, center calc(100% - 1px);
+    float: none;
+    display: block;
+    width: 100%;
+}
+.tableContainer{
+    height: calc(100% - 68px);
+    overflow-y: auto;
+}
+th{
+text-align: center;
+vertical-align: middle;
+background-color: #D6EBFE;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+font-style: normal;
+font-weight: normal;
+}
+.button-creat{
+    float: right;
+    font-size: 24px;
+    margin: 10px;
+    color: #FFF;
+    float: right;
+    background-color: cadetblue;
+    border: none;
+}
+.items{
+    display: flex;
+    margin: 10px;
+}
+.item{
+    color: black;
+}
+.panel-foot{
+    display: flex;
+    position: fixed;
+    bottom: 21%;
+}

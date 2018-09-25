@@ -1,0 +1,30 @@
+﻿{
+  "main": "index.html",
+  "name": "nw-ancuo",
+  "description": "asdfasdf",
+  "version": "0.1.0",
+  "keywords": [ "ancuo", "node-webkit" ],
+  "window": {
+    "title": "股票日志记录",
+    "icon": "images/menu1.png",
+    "toolbar": true,
+    "frame": true,
+    "transparent": false,
+    "position":"center",
+    "width": 1200,
+    "height": 740,
+    "maximize": true,
+    "min_width": 1000,
+    "min_height": 740,
+    "fullscreen": false,
+    "kiosk":false
+  },
+  "webkit": {
+    "plugin": true
+  },
+  "bin":{
+    "acp2svg":"./creatSVG.js"
+  },
+  "js-flags": "--harmony_arrays --harmony-arrow-functions --harmony_generators",
+  "single-instance":false
+}
