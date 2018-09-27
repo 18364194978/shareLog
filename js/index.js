@@ -53,29 +53,32 @@ function initForm() {
                 ],
                 showCreatLogLoadding: false, //是否展示创建日志框
                 newLogData: {
-                    
+
                 }
             }
         },
         methods: {
             creatLog: function (e) {
-                console.log("aaa",e)
-                // this.newLogData.date = $("#log_date").val();
-                // this.showCreatLogLoadding = false; //隐藏浮框
-                // console.log(this.newLogData)
-                // var list =  vueDataAll.showLogList.logList.push(this.newLogData);
-                // console.log(vueDataAll.showLogList.logList)
+                var d = {};
+                var t = $('#showCreatLogLoadding').serializeArray();
+                $.each(t, function () {
+                    d[this.name] = this.value;
+                });
+                console.log(d)
+                vueDataAll.showLogList.logList.push(d);
+                $('#showCreatLogLoadding')[0].reset()
+                this.showCreatLogLoadding = false; //隐藏浮框
             }
         }
     });
     vueDataAll.showLogList = new Vue({
         el: '#showLogList',
-        data:{
+        data: {
             logList: []
         },
         // data() {
         //     return {
-                
+
         //     }
         // },
         methods: {
@@ -85,7 +88,8 @@ function initForm() {
         }
     });
     $("#addNewLog").click(function () {
-        console.log("开始创建日志")
+        console.log("开始创建日志");
+        
         vueDataAll.creatLog.showCreatLogLoadding = true;
     })
 }
