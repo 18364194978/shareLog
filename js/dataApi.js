@@ -16,7 +16,7 @@ function changeDB(dbFile) {
     }
     let defered = Q.defer();
     if (db != null) {
-        db.colose();
+        db.close();
         db = null;
     }
     db = new sqlite3.Database(dbFile, function (err, data) {

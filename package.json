@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "keywords": [ "ancuo", "node-webkit" ],
   "window": {
-    "title": "股票日志记录",
+    "title": "share日志记录",
     "icon": "images/menu1.png",
     "toolbar": true,
     "frame": true,

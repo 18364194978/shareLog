@@ -1,3 +1,12 @@
+'use strict';
+var _ = require('underscore');
+var dataApi = require('./js/dataApi.js');
+var dbFilePath = './data/data.db';
+//缓存数据
+var catchData= {
+    shareLog:'',
+    shareType:''
+}
 var vueDataAll = {
     creatLog: '',
     chooseType: '',
@@ -13,6 +22,11 @@ $(function () {
 
 function initDataBase() {
     console.log("初始化数据库");
+    return dataApi.changeDB(dbFilePath).then(function(){
+        console.log('数据库已打开');
+    }).catch(function(){
+        console.log('数据库打开失败');
+    })
 }
 
 function initAction() {
@@ -95,6 +109,12 @@ function initForm() {
 }
 
 function init() {
+    initDataBase().then(function(){
+        dataApi.getAllShareType().then(function(d){
+            // catchData.shareType = 
+            console.log('1111',d)
+        })
+    })
     console.log("###日志数据开始初始化");
     vueDataAll.chooseType = new Vue({
         // mixins: [iedMixIn],
