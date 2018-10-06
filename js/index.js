@@ -3,9 +3,9 @@ var _ = require('underscore');
 var dataApi = require('./js/dataApi.js');
 var dbFilePath = './data/data.db';
 //缓存数据
-var catchData= {
-    shareLog:'',
-    shareType:''
+var catchData = {
+    shareLog: '',
+    shareType: ''
 }
 var vueDataAll = {
     creatLog: '',
@@ -22,9 +22,9 @@ $(function () {
 
 function initDataBase() {
     console.log("初始化数据库");
-    return dataApi.changeDB(dbFilePath).then(function(){
+    return dataApi.changeDB(dbFilePath).then(function () {
         console.log('数据库已打开');
-    }).catch(function(){
+    }).catch(function () {
         console.log('数据库打开失败');
     })
 }
@@ -79,50 +79,47 @@ function initForm() {
                     d[this.name] = this.value;
                 });
                 console.log(d)
-                vueDataAll.showLogList.logList.push(d);
+                // vueDataAll.showLogList.logList.push(d);
                 $('#showCreatLogLoadding')[0].reset()
                 this.showCreatLogLoadding = false; //隐藏浮框
             }
         }
     });
-    vueDataAll.showLogList = new Vue({
-        el: '#showLogList',
-        data: {
-            logList: []
-        },
-        // data() {
-        //     return {
-
-        //     }
-        // },
-        methods: {
-            showLog: function (e) {
-                console.log("")
-            }
-        }
-    });
+    // vueDataAll.showLogList = new Vue({
+    //     el: '#showLogList',
+    //     data() {
+    //         return {
+    //             logList: []
+    //         }
+    //     },
+    //     methods: {
+    //         showLog: function (e) {
+    //             console.log("")
+    //         }
+    //     }
+    // });
     $("#addNewLog").click(function () {
         console.log("开始创建日志");
-        
+
         vueDataAll.creatLog.showCreatLogLoadding = true;
     })
 }
 
 function init() {
-    initDataBase().then(function(){
-        dataApi.getAllShareType().then(function(d){
-            // catchData.shareType = 
-            console.log('1111',d)
-        })
+    initDataBase().then(function () {
+        dataApi.getAllShareType().then(function (d) {
+            catchData.shareType = d.data;
+            vueDataAll.chooseType.list = d.data;
+            console.log('1111', d)
+        });
     })
     console.log("###日志数据开始初始化");
     vueDataAll.chooseType = new Vue({
-        // mixins: [iedMixIn],
         el: '#chooseType',
         data() {
             return {
                 list: [],
-                showChooseLoadding: false //是否展示日志类型选择框
+                showChooseLoadding: true //是否展示日志类型选择框
             }
         },
         computed: {
@@ -131,9 +128,12 @@ function init() {
             }
         },
         methods: {
-            chooseThisTarget: function (event) {
-                console.log(event)
+            chooseThisTarget: function (type) {
                 this.showChooseLoadding = false;
+                dataApi.getAllShareLog(type).then(function (d) {
+                    catchData.shareLog = d.data;
+                    showLog(d.data);
+                });
 
             },
             creatNewChoose: function () {}
@@ -144,21 +144,115 @@ function init() {
             }
         }
     });
-    let temList = [{
-        guid: "123",
-        value: "真的"
-    }, {
-        guid: "456",
-        value: "真的6"
-    }]
-    vueDataAll.chooseType.list = temList;
-    // console.log(logList)
 }
 // $e.on('chooseThisTarget', function(iedGuid) {
 // 	console.log(iedGuid);
 // 	$('#showList').parent().hide();
 // });
-
+//渲染log列表
+function showLog(data){
+    var columns = [
+        {
+            field: 'guid',
+            title: 'id',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            visible:false
+        },{
+            field: 'guid',
+            title: '序号',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {
+                return index+1;
+            }
+        },{
+            field: 'share_name',
+            title: '股票名称',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        },{
+            field: 'date',
+            title: '日期',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }, {
+            field: 'share_type',
+            title: '收益类型',
+            formatter: function (index, row) {
+                var d = row['share_type'];
+                if(d=="1"){
+                    return "盈利";
+                }else if(d=="2"){
+                    return "浮盈";
+                }else if(d=="3"){
+                    return "浮亏";
+                }else if(d=="4"){
+                    return "亏损";
+                }else if(d=="5"){
+                    return "空仓";
+                }else if(d=="6"){
+                    return "加仓";
+                }else if(d=="7"){
+                    return "减仓";
+                }
+            },
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        },{
+            field: 'share_percent',
+            title: '收益百分比',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            formatter:function(index,row){
+                let pp = row['share_percent'];
+                return pp+" %";
+            }
+        },{
+            field: 'share_much',
+            title: '收益金额',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            formatter:function(value,row,index){
+                return "<span class='badge bg-orange'  style='padding:5px 10px;'>" + value + "</span>"
+            }
+        },{
+            field: 'share_value',
+            title: '收盘股价',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        },{
+            field: 'share_num',
+            title: '收盘手数',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        },{
+            field: 'share_remarks',
+            title: '备注',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }
+    ];
+    $('#table1').bootstrapTable('destroy');
+    $('#table1').bootstrapTable({
+        data: data,
+        classes: 'table table-hover',
+        // uniqueId: "guid",
+        sortName: 'date', // 要排序的字段
+        sortOrder: 'desc',
+        columns: columns
+    })
+}
 
 function showTip(text, position) {
     $("#tooltip").css({

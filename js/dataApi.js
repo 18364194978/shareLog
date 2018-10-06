@@ -120,8 +120,12 @@ function asError(err) {
     return sendAsError(err);
 }
 //获取所有日志信息列表
-function getAllShareLog() {
-    return getData(`SELECT * from share_log;`);
+/**
+ * 
+ * @param {String} type 日志类型
+ */
+function getAllShareLog(type) {
+    return getData(`SELECT * from share_log where share_type = '${type}';`);
 }
 //获取所有的日志类型
 function getAllShareType() {
