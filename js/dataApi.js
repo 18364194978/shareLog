@@ -67,6 +67,26 @@ function onError(err) {
 function asError(err) {
     return sendAsError(err);
 }
+function setDataList(dbPath, sql, callback) {
+    getDB(dbPath).then(function (db) {
+        var sqlList = [];
+        if (Array.isArray(sql)) {
+            sqlList = sql;
+        } else {
+            sqlList = sql.split(';').map(x => x.trim()).filter(x => x !== '');
+        }
+        let sqlToRun = sqlList.join(';');
+        // console.log(sqlToRun);
+        return Q.nfcall(setTransactionData, db, sqlToRun);
+    }, onError).then(function (datas) {
+        callback(null, datas);
+    }, onError).catch(function (err) {
+        callback(err, null);
+    }, onError);
+}
+function setTransactionData(db, sql, callback) {
+    db.exec(sql, callback);
+}
 /**通用查询接口*/
 function getCommonData(db, sql, callback) {
     const supportActionType = {
@@ -140,3 +160,4 @@ exports.getAllShareLog = getAllShareLog;
 exports.getAllShareType = getAllShareType;
 exports.getShareLogById = getShareLogById;
 exports.changeDB = changeDB;
+exports.setDataList = setDataList;

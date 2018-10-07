@@ -1,6 +1,7 @@
 'use strict';
 var _ = require('underscore');
 var dataApi = require('./js/dataApi.js');
+var commen = require('./js/commen.js');
 var dbFilePath = './data/data.db';
 //缓存数据
 var catchData = {
@@ -13,7 +14,6 @@ var vueDataAll = {
     showLogList: ''
 };
 $(function () {
-    //todo 先promise数据库显示数据加载中再.then加载数据
     initDataBase();
     init();
     initAction();
@@ -78,7 +78,9 @@ function initForm() {
                 $.each(t, function () {
                     d[this.name] = this.value;
                 });
-                console.log(d)
+                d.guid = commen.getGuid();
+                console.log(d);
+                addLog(d);//新增table数据
                 // vueDataAll.showLogList.logList.push(d);
                 $('#showCreatLogLoadding')[0].reset()
                 this.showCreatLogLoadding = false; //隐藏浮框
@@ -251,6 +253,14 @@ function showLog(data){
         sortName: 'date', // 要排序的字段
         sortOrder: 'desc',
         columns: columns
+    })
+}
+//新增日志
+function addLog(data){
+    $("#table1").bootstrapTable('append', data);//向table内添加
+    var sql = `INSERT INTO share_log (guid,share_name,share_type,date,share_percent,share_much,share_num,share_remarks) VALUES ("666","飒飒","1","15","13","13","13","jkkfdkfd")`;
+    dataApi.setDataList(dbFilePath,sql,function(a,b){
+        console.log(a,b,'333')
     })
 }
 

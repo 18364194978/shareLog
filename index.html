@@ -80,45 +80,45 @@
             <div class="panel-body">
 
                 <div class="items">
-                    <p class="col-sm-2 item" style="margin-top:0px;">类型：</p>
-                    <div class="col-sm-10">
-                        <select class="selectpicker" name="selectpicker" style="width:90%">
+                    <p class="col-sm-2 item" style="margin-top:0px;width: 25%">收益类型：</p>
+                    <div class="col-sm-10" style="padding:0;">
+                        <select class="selectpicker" name="share_type" style="width:90%">
                             <option v-for="(item,index) in logTypesList" :value="item.value" key="index">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">股票名称：</p>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">股票名称：</p>
                     <div class="" style="width:80%">
                         <input style="width:90%;margin-top: 11px;" name="share_name" type="" id="sharesName" value="" />
                     </div>
                 </div>
                 <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">股价：</p>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收盘股价：</p>
                     <div class="">
-                        <input style="width:91px;margin-top: 11px;" name="share_price" type="number" id="share_value"
+                        <input style="width:91px;margin-top: 11px;" name="share_value" type="number" id="share_value"
                             value="" />
                     </div>
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 72px;">仓位：</p>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收盘仓位：</p>
                     <div class="">
                         <input style="width:91px;margin-top: 11px;" name="share_num" type="number" id="share_num" value="" />
                     </div>
                 </div>
                 <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">百分比：</p>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收益百分比：</p>
                     <div class="">
                         <input style="width:91px;margin-top: 11px;" name="share_percent" type="number" id="percent"
                             value="" />
                     </div>
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 72px;">金额：</p>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收益金额：</p>
                     <div class="">
                         <input style="width:91px;margin-top: 11px;" name="share_much" type="number" id="money" value="" />
                     </div>
                 </div>
                 <div class="items">
-                    <p class="item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">日期：</p>
-                    <div class="">
-                        <input style="width:91px;margin-top: 11px;" name="share_date" type="number" id="money" value="" />
+                    <p class="item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">日期：</p>
+                    <div class="" style="width:80%">
+                        <input style="width:91px;margin-top: 11px;width: 88%" name="date" type="number" id="money" value="" />
                     </div>
                     <!-- <div class="form-group">
                             <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
@@ -138,7 +138,7 @@
                     </div> -->
                 </div>
                 <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 92px;">备注：</p>
+                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">备注：</p>
                     <div class="" style="width:80%">
                         <textarea id="remarks" value="" name="share_remarks" style="width:90%;height: 72px;"></textarea>
                     </div>
