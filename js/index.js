@@ -258,7 +258,8 @@ function showLog(data){
 //新增日志
 function addLog(data){
     $("#table1").bootstrapTable('append', data);//向table内添加
-    var sql = `INSERT INTO share_log (guid,share_name,share_type,date,share_percent,share_much,share_num,share_remarks) VALUES ("666","飒飒","1","15","13","13","13","jkkfdkfd")`;
+    var sql = `INSERT INTO share_log (guid,share_name,share_index,share_type,date,share_percent,share_much,share_num,share_remarks) VALUES 
+    ('${data.guid}','${data.share_name}','${data.share_index}','${data.share_type}','${data.date}','${data.share_percent}','${data.share_much}','${data.share_num}','${data.share_remarks}')`;
     dataApi.setDataList(dbFilePath,sql,function(a,b){
         console.log(a,b,'333')
     })
