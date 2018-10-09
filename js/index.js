@@ -73,6 +73,8 @@ function initForm() {
         },
         methods: {
             creatLog: function (e) {
+                //获取当前所在tab页
+                var tab = $("#myTab li[class='active'] a")[0].text;
                 var d = {};
                 var t = $('#showCreatLogLoadding').serializeArray();
                 $.each(t, function () {
@@ -104,6 +106,9 @@ function initForm() {
         console.log("开始创建日志");
 
         vueDataAll.creatLog.showCreatLogLoadding = true;
+    })
+    $(".bb").click(function (x) {
+        console.log("aaaaa", x)
     })
 }
 

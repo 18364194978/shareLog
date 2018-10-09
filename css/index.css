@@ -52,7 +52,7 @@ body.border nav {
 #creatLog {
     margin: auto;
     width:500px;
-    height: 60%;
+    height: 67%;
 }
 
 .panel-heading {
@@ -135,6 +135,7 @@ font-weight: normal;
 }
 .panel-foot{
     display: flex;
-    position: fixed;
-    bottom: 21%;
+    position: fixed;  
+    bottom: 18%;
+    width: inherit;
 }

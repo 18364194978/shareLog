@@ -75,82 +75,86 @@
     <form v-if="showCreatLogLoadding" id="showCreatLogLoadding" class="target-loadding form-inline" role="form">
         <div class="panel panel-primary" id="creatLog">
             <div class="panel-heading" style="position: relative;cursor: default;">
-                <h2 class="panel-title">创建日志</h2>
+                <ul id="myTab" class="nav nav-tabs">
+                    <li  class="active"><a href="#share" data-toggle="tab">股票日志</a></li>
+                    <li><a href="#ios" data-toggle="tab">大盘日志</a></li>
+                </ul>
             </div>
             <div class="panel-body">
-
-                <div class="items">
-                    <p class="col-sm-2 item" style="margin-top:0px;width: 25%">收益类型：</p>
-                    <div class="col-sm-10" style="padding:0;">
-                        <select class="selectpicker" name="share_type" style="width:90%">
-                            <option v-for="(item,index) in logTypesList" :value="item.value" key="index">{{item.name}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">股票名称：</p>
-                    <div class="" style="width:80%">
-                        <input style="width:90%;margin-top: 11px;" name="share_name" type="" id="sharesName" value="" />
-                    </div>
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">股票代码：</p>
-                    <div class="" style="width:80%">
-                        <input style="width:90%;margin-top: 11px;" name="share_index" type="" id="share_index" value="" />
-                    </div>
-                </div>
-                <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收盘股价：</p>
-                    <div class="">
-                        <input style="width:91px;margin-top: 11px;" name="share_value" type="number" id="share_value"
-                            value="" />
-                    </div>
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收盘仓位：</p>
-                    <div class="">
-                        <input style="width:91px;margin-top: 11px;" name="share_num" type="number" id="share_num" value="" />
-                    </div>
-                </div>
-                <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收益百分比：</p>
-                    <div class="">
-                        <input style="width:91px;margin-top: 11px;" name="share_percent" type="number" id="percent"
-                            value="" />
-                    </div>
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收益金额：</p>
-                    <div class="">
-                        <input style="width:91px;margin-top: 11px;" name="share_much" type="number" id="money" value="" />
-                    </div>
-                </div>
-                <div class="items">
-                    <p class="item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">日期：</p>
-                    <div class="" style="width:80%">
-                        <input style="width:91px;margin-top: 11px;width: 88%" name="date" type="number" id="money" value="" />
-                    </div>
-                    <!-- <div class="form-group">
-                            <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
-                            <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                                <input class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="share">
+                        <div class="items">
+                            <p class="col-sm-2 item" style="margin-top:0px;width: 25%">收益类型：</p>
+                            <div class="col-sm-10" style="padding:0;">
+                                <select class="selectpicker" name="share_type" style="width:90%">
+                                    <option v-for="(item,index) in logTypesList" :value="item.value" key="index">{{item.name}}</option>
+                                </select>
                             </div>
-                            <input type="hidden" id="dtp_input1" value="" /><br/>
-                        </div> -->
-                    <!-- <div class="col-sm-10">
-                        <div class="input-group date form_datetime col-md-5" style="width:100%" data-date="1979-09-16T05:25:07Z"
-                            data-date-format="yyyy mm dd - HH:ii p">
-                            <input class="form-control" size="16" id="log_date" readonly>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                         </div>
-                    </div> -->
-                </div>
-                <div class="items">
-                    <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">备注：</p>
-                    <div class="" style="width:80%">
-                        <textarea id="remarks" value="" name="share_remarks" style="width:90%;height: 72px;"></textarea>
+                        <div class="items">
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">股票名称：</p>
+                            <div class="">
+                                <input style="width:91px;margin-top: 11px;" name="share_name" type="number" id="share_name" value="" />
+                            </div>
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">股票代码：：</p>
+                            <div class="">
+                                <input style="width:91px;margin-top: 11px;" name="share_index" type="number" id="share_index" value="" />
+                            </div>
+                        </div>
+                        <div class="items">
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收盘股价：</p>
+                            <div class="">
+                                <input style="width:91px;margin-top: 11px;" name="share_value" type="number" id="share_value"
+                                    value="" />
+                            </div>
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收盘仓位：</p>
+                            <div class="">
+                                <input style="width:91px;margin-top: 11px;" name="share_num" type="number" id="share_num"
+                                    value="" />
+                            </div>
+                        </div>
+                        <div class="items">
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收益百分比：</p>
+                            <div class="">
+                                <input style="width:91px;margin-top: 11px;" name="share_percent" type="number" id="percent"
+                                    value="" />
+                            </div>
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">收益金额：</p>
+                            <div class="">
+                                <input style="width:91px;margin-top: 11px;" name="share_much" type="number" id="money"
+                                    value="" />
+                            </div>
+                        </div>
+                        <div class="items">
+                            <p class="item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">日期：</p>
+                            <div class="" style="width:80%">
+                                <input style="width:91px;margin-top: 11px;width: 88%" name="date" type="number" id="money"
+                                    value="" />
+                            </div>
+                        </div>
+                        <div class="items">
+                            <p class=" item" style="margin-top:0px; padding-top: 13px;padding-left: 15px;width: 25%;">备注：</p>
+                            <div class="" style="width:80%">
+                                <textarea id="remarks" value="" name="share_remarks" style="width:90%;height: 72px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="ios">
+                        <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                            TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+                    </div>
+                    <div class="tab-pane fade" id="jmeter">
+                        <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+                    </div>
+                    <div class="tab-pane fade" id="ejb">
+                        <p>Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的
+                            J2EE 上。
+                        </p>
                     </div>
                 </div>
-
             </div>
             <div class="panel-foot">
-                <button @click="showCreatLogLoadding=false" type="button" class="btn" style="margin-left:88%;background: grey">取消</button>
+                <button @click="showCreatLogLoadding=false" type="button" class="btn" style="margin-left:27%;background: grey">取消</button>
                 <button id="creat_ok" @click="creatLog" class="btn" type="button" style="background: #009688;color: #FFF;">确定</button>
             </div>
         </div>
@@ -158,7 +162,6 @@
     <script type="text/javascript" src="./js/index.js"></script>
     <script type="text/javascript">
         $(function () {
-            
             $('.form_datetime').datetimepicker({
                 //language:  'fr',
                 weekStart: 1,
@@ -169,7 +172,10 @@
                 forceParse: 0,
                 showMeridian: 1
             });
+    
         })
+
+        
         // $("#datepicker").datepicker( "option", "dateFormat","yy-mm-dd" );
         // $("#targetSVGImg").delegate("circle, text, use, rect", 'mouseover', function (evt) {
         //     var $curSVGNode = $(event.target);
