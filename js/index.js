@@ -13,12 +13,14 @@ var vueDataAll = {
     chooseType: '',
     showLogList: ''
 };
+
 $(function () {
     initDataBase();
     init();
     initAction();
     initForm();
 })
+
 
 function initDataBase() {
     console.log("初始化数据库");
@@ -140,7 +142,7 @@ function init() {
         dataApi.getAllShareType().then(function (d) {
             catchData.shareType = d.data;
             vueDataAll.chooseType.list = d.data;
-            console.log('1111', d)
+            console.log('0', d)
         });
     })
     console.log("###日志数据开始初始化");
@@ -181,6 +183,11 @@ function init() {
 // });
 //渲染log列表
 function showLog(data) {
+    window.event = {
+        "click .showDetail": function (e,value,row,index) {
+            console.log("aaaa",row)
+        }
+    }
     var columns = [{
         field: 'guid',
         title: 'id',
@@ -189,7 +196,7 @@ function showLog(data) {
         valign: 'middle',
         visible: false
     }, {
-        field: 'guid',
+        field: 'index',
         title: '序号',
         align: 'center',
         halign: 'center',
@@ -275,12 +282,15 @@ function showLog(data) {
         title: '操作',
         align: 'center',
         halign: 'center',
-            valign: 'middle',
-            events: showDeails,
-            formatter: function () {
-                return '<button id="btn_detail" type="button" class="option btn-default bt-select">详情</button>'
-            }
+        valign: 'middle',
+        events: event,
+        formatter: operateFormatter
     }];
+
+    function operateFormatter(value, row, index) {
+        return '<input type="button" value="详情" class="showDetail btn btn-primary btn-sm">';
+    }
+    
     $('#table1').bootstrapTable('destroy');
     $('#table1').bootstrapTable({
         data: data,
@@ -294,11 +304,7 @@ function showLog(data) {
         columns: columns
     })
 }
-window.showDeails = {
-    'click .option': function (e, value, row, index) {
-        console.log(row);
-    }
-}
+
 /**
  * 新增日志
  * @param {Obj} data 保存的数据
