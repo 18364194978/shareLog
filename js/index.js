@@ -270,23 +270,34 @@ function showLog(data) {
         align: 'center',
         halign: 'center',
         valign: 'middle'
+    }, {
+        field: 'option',
+        title: '操作',
+        align: 'center',
+        halign: 'center',
+            valign: 'middle',
+            events: showDeails,
+            formatter: function () {
+                return '<button id="btn_detail" type="button" class="option btn-default bt-select">详情</button>'
+            }
     }];
     $('#table1').bootstrapTable('destroy');
     $('#table1').bootstrapTable({
         data: data,
         classes: 'table table-hover',
-        search: false,//显示搜索
+        search: false, //显示搜索
         fixedColumns: true,
-            fixedNumber: 1, //固定列数
+        fixedNumber: 1, //固定列数
         // uniqueId: "guid",
         sortName: 'date', // 要排序的字段
         sortOrder: 'desc',
         columns: columns
     })
-    // $("#table1").bootstrapTable('destroy').bootstrapTable({
-    //     fixedColumns: true,
-    //     fixedNumber: 1 //固定列数
-    // })
+}
+window.showDeails = {
+    'click .option': function (e, value, row, index) {
+        console.log(row);
+    }
 }
 /**
  * 新增日志
