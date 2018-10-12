@@ -11,7 +11,8 @@ var catchData = {
 var vueDataAll = {
     creatLog: '',
     chooseType: '',
-    showLogList: ''
+    showLogList: '',
+    showDetail: ''
 };
 
 $(function () {
@@ -114,27 +115,23 @@ function initForm() {
             }
         }
     });
-    // vueDataAll.showLogList = new Vue({
-    //     el: '#showLogList',
-    //     data() {
-    //         return {
-    //             logList: []
-    //         }
-    //     },
-    //     methods: {
-    //         showLog: function (e) {
-    //             console.log("")
-    //         }
-    //     }
-    // });
+    vueDataAll.showDetail = new Vue({
+        el: '#showDetailModel',
+        data() {
+            return {
+                showDetail: false,
+                detail_grail_type: '0',
+                detail_grail_num: '0',
+                detail_grail_range: '0',
+                detail_grail_up: '',
+                detail_grail_percent: ''
+            }
+        }
+    });
     $("#addNewLog").click(function () {
         console.log("开始创建日志");
-
         vueDataAll.creatLog.showCreatLogLoadding = true;
-    })
-    $(".bb").click(function (x) {
-        console.log("aaaaa", x)
-    })
+    });
 }
 
 function init() {
@@ -142,7 +139,6 @@ function init() {
         dataApi.getAllShareType().then(function (d) {
             catchData.shareType = d.data;
             vueDataAll.chooseType.list = d.data;
-            console.log('0', d)
         });
     })
     console.log("###日志数据开始初始化");
@@ -164,6 +160,7 @@ function init() {
                 this.showChooseLoadding = false;
                 dataApi.getAllShareLog(type).then(function (d) {
                     catchData.shareLog = d.data;
+                    console.log(d)
                     showLog(d.data);
                 });
 
@@ -184,113 +181,141 @@ function init() {
 //渲染log列表
 function showLog(data) {
     window.event = {
-        "click .showDetail": function (e,value,row,index) {
-            console.log("aaaa",row)
+        "click .showDetail": function (e, value, row, index) {
+            console.log(row)
+            vueDataAll.showDetail.showDetail = true;
+            vueDataAll.showDetail.detail_grail_type = row.grail_type,
+            vueDataAll.showDetail.detail_grail_num = row.grail_num,
+            vueDataAll.showDetail.detail_grail_range = row.grail_range,
+            vueDataAll.showDetail.detail_grail_up = row.grail_up,
+            vueDataAll.showDetail.detail_grail_percent = row.grail_percent
         }
     }
     var columns = [{
-        field: 'guid',
-        title: 'id',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle',
-        visible: false
-    }, {
-        field: 'index',
-        title: '序号',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle',
-        formatter: function (value, row, index) {
-            return index + 1;
-        }
-    }, {
-        field: 'share_name',
-        title: '股票名称',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle'
-    }, {
-        field: 'date',
-        title: '日期',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle'
-    }, {
-        field: 'share_type',
-        title: '收益类型',
-        formatter: function (index, row) {
-            var d = row['share_type'];
-            if (d == "1") {
-                return "盈利";
-            } else if (d == "2") {
-                return "浮盈";
-            } else if (d == "3") {
-                return "浮亏";
-            } else if (d == "4") {
-                return "亏损";
-            } else if (d == "5") {
-                return "空仓";
-            } else if (d == "6") {
-                return "加仓";
-            } else if (d == "7") {
-                return "减仓";
-            }
+            field: 'guid',
+            visible: false
+        }, {
+            field: 'grail_type',
+            visible: false
         },
-        align: 'center',
-        halign: 'center',
-        valign: 'middle'
-    }, {
-        field: 'share_percent',
-        title: '收益百分比',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle',
-        formatter: function (index, row) {
-            let pp = row['share_percent'];
-            return pp + " %";
+        {
+            field: 'grail_num',
+            visible: false
+        }, {
+            field: 'grail_percent',
+            visible: false
+        }, {
+            field: 'grail_up',
+            visible: false
+        }, {
+            field: 'grail_range',
+            visible: false
+        }, {
+            field: 'index',
+            title: '序号',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {
+                return index + 1;
+            }
+        }, {
+            field: 'share_name',
+            title: '股票名称',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }, {
+            field: 'share_date',
+            title: '日期',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }, {
+            field: 'share_type',
+            title: '收益类型',
+            formatter: function (index, row) {
+                var d = row['share_type'];
+                if (d == "1") {
+                    return "盈利";
+                } else if (d == "2") {
+                    return "浮盈";
+                } else if (d == "3") {
+                    return "浮亏";
+                } else if (d == "4") {
+                    return "亏损";
+                } else if (d == "5") {
+                    return "空仓";
+                } else if (d == "6") {
+                    return "加仓";
+                } else if (d == "7") {
+                    return "减仓";
+                }
+            },
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }, {
+            field: 'share_percent',
+            title: '收益百分比',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            formatter: function (index, row) {
+                let pp = row['share_percent'];
+                return pp + " %";
+            }
+        }, {
+            field: 'share_much',
+            title: '收益金额',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {
+                return "<span class='badge bg-orange'  style='padding:5px 10px;'>" + value + "</span>"
+            }
+        }, {
+            field: 'share_value',
+            title: '收盘股价',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }, {
+            field: 'share_num',
+            title: '收盘手数',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle'
+        }, {
+            field: 'share_remarks',
+            title: '备注',
+            align: 'center',
+            halign: 'center',
+            formatter: function (value, row, index) {
+                var rel = "";
+                if (value.length > 5) {
+                    rel = value.slice(0, 5)+'...';
+                } else {
+                    rel = value;
+                }
+                return "<span class='' title="+value+" style=''>" + rel + "</span>"
+            },
+            valign: 'middle'
+        }, {
+            field: 'option',
+            title: '操作',
+            align: 'center',
+            halign: 'center',
+            valign: 'middle',
+            events: event,
+            formatter: operateFormatter
         }
-    }, {
-        field: 'share_much',
-        title: '收益金额',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle',
-        formatter: function (value, row, index) {
-            return "<span class='badge bg-orange'  style='padding:5px 10px;'>" + value + "</span>"
-        }
-    }, {
-        field: 'share_value',
-        title: '收盘股价',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle'
-    }, {
-        field: 'share_num',
-        title: '收盘手数',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle'
-    }, {
-        field: 'share_remarks',
-        title: '备注',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle'
-    }, {
-        field: 'option',
-        title: '操作',
-        align: 'center',
-        halign: 'center',
-        valign: 'middle',
-        events: event,
-        formatter: operateFormatter
-    }];
+    ];
 
     function operateFormatter(value, row, index) {
         return '<input type="button" value="详情" class="showDetail btn btn-primary btn-sm">';
     }
-    
+
     $('#table1').bootstrapTable('destroy');
     $('#table1').bootstrapTable({
         data: data,
@@ -313,17 +338,16 @@ function showLog(data) {
 function addLog(data, type) {
     if (type == "share") {
         $("#table1").bootstrapTable('append', data); //向table内添加
-        var sql = `INSERT INTO share_log (guid,share_name,share_index,share_type,date,share_percent,share_much,share_num,share_remarks) VALUES 
-        ('${data.guid}','${data.share_name}','${data.share_index}','${data.share_type}','${data.date}','${data.share_percent}','${data.share_much}','${data.share_num}','${data.share_remarks}')`;
+        var sql = `INSERT INTO share_log (guid,account_type,share_name,share_index,share_type,date,share_percent,share_value,share_num,share_remarks) VALUES
+        ('${data.guid}', '1', '${data.share_name}', '${data.share_index}', '${data.share_type}', '${data.date}', '${data.share_percent}', '${data.share_value}', '${data.share_num}', '${data.share_remarks}')
+        `;
         dataApi.setDataList(dbFilePath, sql, function (a, b) {
-            console.log(a, b, '333')
         });
     } else if (type == "grail") {
         var sql = `INSERT INTO grail_log (guid,grail_type,date,grail_num,grail_percent,grail_range,grail_up) VALUES
         ('${data.guid}', '${data.grail_type}', '${data.date}', '${data.grail_num}', '${data.grail_percent}', '${data.grail_range}', '${data.grail_up}')
         `;
         dataApi.setDataList(dbFilePath, sql, function (a, b) {
-            console.log(a, b, '333')
         });
     }
 }
