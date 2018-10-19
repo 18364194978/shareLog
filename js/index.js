@@ -159,6 +159,7 @@ function init() {
             chooseThisTarget: function (type) {
                 this.showChooseLoadding = false;
                 dataApi.getAllShareLog(type).then(function (d) {
+                    console.log(d)
                     catchData.shareLog = d.data;
                     console.log(d)
                     showLog(d.data);
@@ -230,20 +231,21 @@ function showLog(data) {
             title: '日期',
             align: 'center',
             halign: 'center',
-            valign: 'middle'
+            valign: 'middle',
+            sortable: true
         }, {
             field: 'share_type',
             title: '收益类型',
             formatter: function (index, row) {
                 var d = row['share_type'];
                 if (d == "1") {
-                    return "盈利";
+                    return "<span class='badge bg-orange' style='padding:5px 10px;background:red;'>盈利</span>";
                 } else if (d == "2") {
-                    return "浮盈";
+                    return "<span class='badge bg-orange' style='padding:5px 10px;background:orangered;'>浮盈</span>";
                 } else if (d == "3") {
-                    return "浮亏";
+                    return "<span class='badge bg-orange' style='padding:5px 10px;background:limegreen;'>浮亏</span>";
                 } else if (d == "4") {
-                    return "亏损";
+                    return "<span class='badge bg-orange' style='padding:5px 10px;background:green;'>亏损</span>";
                 } else if (d == "5") {
                     return "空仓";
                 } else if (d == "6") {
@@ -263,7 +265,19 @@ function showLog(data) {
             valign: 'middle',
             formatter: function (index, row) {
                 let pp = row['share_percent'];
-                return pp + " %";
+                let d = row['share_type'];
+                if (d == "1") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:red;'>" + pp + " %</span>";
+                } else if (d == "2") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:orangered;'>" + pp + " %</span>";
+                } else if (d == "3") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:limegreen;'>- " + pp + " %</span>";
+                } else if (d == "4") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:green;'>- " + pp + " %</span>";
+                } else {
+                     return pp + " %";
+                }
+               
             }
         }, {
             field: 'share_much',
@@ -272,7 +286,18 @@ function showLog(data) {
             halign: 'center',
             valign: 'middle',
             formatter: function (value, row, index) {
-                return "<span class='badge bg-orange'  style='padding:5px 10px;'>" + value + "</span>"
+                var d = row['share_type'];
+                if (d == "1") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:red;'>" + value + "</span>";
+                } else if (d == "2") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:orangered;'>" + value + "</span>";
+                } else if (d == "3") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:limegreen;'>- " + value + "</span>";
+                } else if (d == "4") {
+                    return "<span class='badge bg-orange'  style='width:70px;padding:5px 10px;background:green;'>- " + value + "</span>";
+                } else {
+                    return value;
+                }
             }
         }, {
             field: 'share_value',
@@ -322,6 +347,8 @@ function showLog(data) {
         classes: 'table table-hover',
         search: false, //显示搜索
         fixedColumns: true,
+        sortable: true,//启用排序
+        sortOrder: "asc",//排序方式
         fixedNumber: 1, //固定列数
         // uniqueId: "guid",
         sortName: 'date', // 要排序的字段
@@ -338,14 +365,14 @@ function showLog(data) {
 function addLog(data, type) {
     if (type == "share") {
         $("#table1").bootstrapTable('append', data); //向table内添加
-        var sql = `INSERT INTO share_log (guid,account_type,share_name,share_index,share_type,date,share_percent,share_value,share_num,share_remarks) VALUES
-        ('${data.guid}', '1', '${data.share_name}', '${data.share_index}', '${data.share_type}', '${data.date}', '${data.share_percent}', '${data.share_value}', '${data.share_num}', '${data.share_remarks}')
+        var sql = `INSERT INTO share_log (guid,account_type,share_name,share_index,share_type,share_date,share_percent,share_value,share_num,share_remarks,share_much) VALUES
+        ('${data.guid}', '1', '${data.share_name}', '${data.share_index}', '${data.share_type}', '${data.share_date}', '${data.share_percent}', '${data.share_value}', '${data.share_num}', '${data.share_remarks}', '${data.share_much}')
         `;
         dataApi.setDataList(dbFilePath, sql, function (a, b) {
         });
     } else if (type == "grail") {
-        var sql = `INSERT INTO grail_log (guid,grail_type,date,grail_num,grail_percent,grail_range,grail_up) VALUES
-        ('${data.guid}', '${data.grail_type}', '${data.date}', '${data.grail_num}', '${data.grail_percent}', '${data.grail_range}', '${data.grail_up}')
+        var sql = `INSERT INTO grail_log (guid,grail_type,grail_date,grail_num,grail_percent,grail_range,grail_up) VALUES
+        ('${data.guid}', '${data.grail_type}', '${data.grail_date}', '${data.grail_num}', '${data.grail_percent}', '${data.grail_range}', '${data.grail_up}')
         `;
         dataApi.setDataList(dbFilePath, sql, function (a, b) {
         });

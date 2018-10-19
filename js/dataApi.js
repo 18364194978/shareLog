@@ -145,7 +145,9 @@ function asError(err) {
  * @param {String} type 日志类型
  */
 function getAllShareLog(type) {
-    return getData(`SELECT a.*,b.grail_num,b.grail_percent,b.grail_range,b.grail_type,b.grail_up from share_log a left join grail_log b on b.guid = a.guid where a.account_type = '${type}';`);
+    return getData(`SELECT a.*,b.grail_num,b.grail_percent,b.grail_range,b.grail_type,b.grail_up 
+    from share_log a left join grail_log b on b.grail_date = a.share_date
+    where a.account_type = '${type}' order by a.share_date desc;`);
 }
 //获取所有的日志类型
 function getAllShareType() {
